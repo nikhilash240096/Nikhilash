@@ -1,0 +1,49 @@
+import java.awt.FlowLayout;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+public class HotelTracker extends JFrame {
+    Map<String, String> roomStatus = new HashMap<>();
+    JTextArea area = new JTextArea();
+
+    public HotelTracker() {
+        setTitle("Hotel Housekeeping Tracker");
+        setSize(400, 400);
+        setLayout(new FlowLayout());
+
+        String[] rooms = {"Room 101", "Room 102", "Room 103"};
+        JComboBox<String> roomBox = new JComboBox<>(rooms);
+
+        String[] status = {"Pending", "Cleaned", "Maintenance"};
+        JComboBox<String> statusBox = new JComboBox<>(status);
+
+        JButton update = new JButton("Update");
+
+        add(new JLabel("Select Room:"));
+        add(roomBox);
+        add(new JLabel("Select Status:"));
+        add(statusBox);
+        add(update);
+        add(new JScrollPane(area));
+
+        update.addActionListener(e -> {
+            String room = (String) roomBox.getSelectedItem();
+            String stat = (String) statusBox.getSelectedItem();
+            roomStatus.put(room, stat);
+            area.setText("");
+            roomStatus.forEach((r, s) -> area.append(r + " - " + s + "\n"));
+        });
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new HotelTracker();
+    }
+}
